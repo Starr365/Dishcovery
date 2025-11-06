@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import SearchBar from './components/SearchBar'
 import RecipeList from './components/RecipeList'
 import recipesData from './data/recipes.json'
+import DishcoveryLanding from './components/DishcoveryLanding'
 
 function App() {
   // State: recipes (static), search, favorites, show favorites only
@@ -76,29 +77,10 @@ function App() {
   return (
     <div className="min-h-screen">
     {/* Header */}
-    {/* <header className="border-b border-neutral-200 bg-white/80 backdrop-blur supports-backdrop-filter:bg-white/60">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-5">
-        <h1 className="text-2xl font-bold text-(--color-text)">
-          <span className="mr-2">🍳</span> Recipe Finder
-        </h1>
-        <a
-          href="#"
-          className="hidden rounded-full px-3 py-1 text-sm font-medium text-(--color-text)/80 hover:bg-neutral-100 sm:inline"
-        >
-          Dishcovery
-        </a>
-      </div>
-    </header> */}
-        <header className='border rounded-b-2xl bg-(--color-primary) text-white min-h-full'>
-      <div className="m-auto flex max-w-5xl items-center align-center px-4 py-5">
-        <h1 className="text-2xl font-bold">
-          Dishcovery
-        </h1>
-      </div>
-    </header>
+    < DishcoveryLanding/>
 
       {/* Main content */}
-      <main className="mx-auto max-w-6xl px-4 py-8">
+      <main id='recipes' className="mx-auto max-w-6xl px-4 py-8">
         {!selectedRecipe && (
           <>
             <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
@@ -193,13 +175,6 @@ function App() {
           </article>
         )}
       </main>
-
-      {/* Footer */}
-      <footer className="mt-12 border-t border-neutral-200 bg-white/70">
-        <div className="mx-auto max-w-6xl px-4 py-6 text-sm text-neutral-600">
-          Built with <span className="text-primary">React</span> & Tailwind · Fresh Harvest theme
-        </div>
-      </footer>
     </div>
   )
 }

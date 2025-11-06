@@ -5,9 +5,14 @@
   --color-primary: #E63946;
   --color-accent: #F1FA8C;
   --color-secondary: #2A9D8F;
-  --color-bg: #f1faee;
+  --color-bg: #f1f1f1;
   --color-text: #3A2E2E;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
 
 /* Global defaults aligned with theme */
 @layer base {
