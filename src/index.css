@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+/* Theme variables */
+:root {
+  --color-primary: #E63946;
+  --color-accent: #F1FA8C;
+  --color-secondary: #2A9D8F;
+  --color-bg: #f1faee;
+  --color-text: #3A2E2E;
+}
+
+/* Global defaults aligned with theme */
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+  body {
+    @apply antialiased;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+      Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  }
+}
+
+/* Helpers using CSS variables with Tailwind utilities */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-medium shadow-sm transition-all duration-300 ease-in-out;
+    background-color: var(--color-primary);
+    color: white;
+  }
+  .btn-primary:hover {
+    filter: brightness(0.95);
+  }
+  .btn-accent {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 font-medium shadow-sm transition-all duration-300 ease-in-out;
+    background-color: var(--color-accent);
+    color: #3A2E2E;
+  }
+  .card {
+    @apply rounded-2xl bg-white shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-0.5;
+  }
+}
+

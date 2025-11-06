@@ -1,0 +1,249 @@
+[
+  {
+    "id": 1,
+    "name": "Jollof Rice",
+    "image": "/jollof rice.jpeg",
+    "ingredients": ["long-grain rice", "tomatoes", "red bell peppers", "onions", "vegetable oil", "seasoning cubes", "salt", "thyme", "bay leaves"],
+    "instructions": [
+      "Blend tomatoes, red bell peppers, and onions into a smooth paste.",
+      "Heat vegetable oil in a pot and fry the blended mix for 10–15 minutes.",
+      "Add thyme, bay leaves, salt, and seasoning cubes.",
+      "Stir in washed rice and add water to cook.",
+      "Cover and simmer on low heat until rice is tender and flavorful."
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Fried Rice",
+    "image": "/fried rice.jpeg",
+    "ingredients": ["parboiled rice", "carrots", "green peas", "sweet corn", "green beans", "liver or chicken", "soy sauce", "vegetable oil", "seasoning cubes"],
+    "instructions": [
+      "Parboil rice and set aside.",
+      "Fry diced vegetables in vegetable oil for a few minutes.",
+      "Add cooked liver or chicken pieces and stir well.",
+      "Add rice, soy sauce, and seasoning, then stir-fry until evenly mixed.",
+      "Serve with fried plantains or grilled chicken."
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Coconut Rice",
+    "image": "/coconut rice.jpeg",
+    "ingredients": ["rice", "coconut milk", "tomatoes", "onions", "bell peppers", "crayfish", "salt", "seasoning cubes"],
+    "instructions": [
+      "Extract or use canned coconut milk.",
+      "Blend tomatoes, peppers, and onions and fry the sauce in oil.",
+      "Add coconut milk, seasoning, and rice, then stir well.",
+      "Cook on low heat until rice is soft and infused with coconut flavor."
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Egusi Soup",
+    "image": "/egusi soup.jpeg",
+    "ingredients": ["melon seeds", "palm oil", "spinach or ugu", "onions", "meat", "fish", "seasoning cubes", "salt"],
+    "instructions": [
+      "Grind melon seeds into a paste with water.",
+      "Fry the paste in palm oil with onions until slightly thick.",
+      "Add meat, fish, and seasoning cubes.",
+      "Add water and vegetables, then simmer for 10 minutes.",
+      "Serve hot with pounded yam, eba, or fufu."
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Efo Riro",
+    "image": "/efo riro.jpeg",
+    "ingredients": ["spinach", "tomatoes", "red bell peppers", "onions", "palm oil", "smoked fish", "seasoning cubes", "salt"],
+    "instructions": [
+      "Blend tomatoes, peppers, and onions into a smooth mix.",
+      "Fry in palm oil until thick.",
+      "Add smoked fish, meat, and seasoning cubes.",
+      "Stir in chopped spinach and cook for 5–7 minutes.",
+      "Serve with rice, yam, or plantains."
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Okra Soup",
+    "image": "/okra soup.jpeg",
+    "ingredients": ["okra", "palm oil", "crayfish", "meat", "fish", "seasoning cubes", "salt"],
+    "instructions": [
+      "Chop okra finely and set aside.",
+      "Boil meat and fish with seasoning.",
+      "Add palm oil, crayfish, and salt to the pot.",
+      "Stir in okra and cook for 5–7 minutes until thick and slimy.",
+      "Serve with fufu or garri."
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Afang Soup",
+    "image": "/afang soup.jpeg",
+    "ingredients": ["afang leaves", "waterleaf", "meat", "fish", "palm oil", "seasoning cubes", "salt"],
+    "instructions": [
+      "Grind afang leaves and chop waterleaf.",
+      "Cook meat and fish with seasoning until tender.",
+      "Add palm oil, then the leaves and a little water.",
+      "Simmer for 10 minutes and serve with fufu or semovita."
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Moi Moi",
+    "image": "/moi moi.jpeg",
+    "ingredients": ["beans", "red bell peppers", "onions", "vegetable oil", "eggs", "seasoning cubes", "salt"],
+    "instructions": [
+      "Peel and blend beans with peppers and onions.",
+      "Add vegetable oil, seasoning, and salt, then mix well.",
+      "Pour mixture into bowls or foil containers and add boiled egg slices.",
+      "Steam for 45 minutes until firm.",
+      "Serve with pap or rice."
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Akara (Bean Cakes)",
+    "image": "/akara.jpeg",
+    "ingredients": ["beans", "onions", "salt", "pepper", "vegetable oil"],
+    "instructions": [
+      "Peel beans and blend with onions and pepper into a thick paste.",
+      "Whisk the paste until light and fluffy.",
+      "Heat oil and fry spoonfuls of batter until golden brown.",
+      "Serve with pap or bread."
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Yam and Egg Sauce",
+    "image": "/egg sauce.jpeg",
+    "ingredients": ["yam", "eggs", "onions", "tomatoes", "vegetable oil", "salt", "seasoning cubes"],
+    "instructions": [
+      "Peel and slice yam, then boil with salt until soft.",
+      "Chop onions and tomatoes and fry them in oil for 5 minutes.",
+      "Add whisked eggs and stir-fry until cooked.",
+      "Serve the egg sauce with the boiled yam."
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Beans Porridge",
+    "image": "/beans porridge.jpeg",
+    "ingredients": ["beans", "palm oil", "onions", "pepper", "salt", "seasoning cubes"],
+    "instructions": [
+      "Boil beans until soft.",
+      "Add palm oil, onions, and pepper.",
+      "Stir well and cook for another 10 minutes until thick.",
+      "Serve with bread or fried plantains."
+    ]
+  },
+  {
+    "id": 12,
+    "name": "Pepper Soup",
+    "image": "/pepper soup.jpeg",
+    "ingredients": ["goat meat or fish", "onions", "pepper soup spice", "seasoning cubes", "salt"],
+    "instructions": [
+      "Wash and cut meat or fish into pieces.",
+      "Add water, onions, pepper soup spice, and seasoning cubes.",
+      "Boil until tender and flavorful.",
+      "Serve hot with yam or rice."
+    ]
+  },
+  {
+    "id": 13,
+    "name": "Pounded Yam and Egusi Soup",
+    "image": "/pounded yam.jpeg",
+    "ingredients": ["yam", "melon seeds", "palm oil", "vegetable leaves", "meat", "fish", "seasoning cubes", "salt"],
+    "instructions": [
+      "Boil yam until soft, then pound until smooth.",
+      "Prepare egusi soup by frying ground melon seeds in palm oil with onions.",
+      "Add meat, fish, vegetables, and seasoning cubes.",
+      "Serve hot with pounded yam."
+    ]
+  },
+  {
+    "id": 14,
+    "name": "Plantain Porridge",
+    "image": "/plantain porridge.jpeg",
+    "ingredients": ["ripe and unripe plantains", "palm oil", "onions", "crayfish", "fish", "seasoning cubes", "salt"],
+    "instructions": [
+      "Peel and chop plantains into chunks.",
+      "Add to a pot with palm oil, onions, crayfish, and fish.",
+      "Season and cook until thick and soft.",
+      "Serve warm."
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Ewa Agoyin",
+    "image": "/ewa agoyin.jpeg",
+    "ingredients": ["brown beans", "dried peppers", "onions", "palm oil", "salt"],
+    "instructions": [
+      "Boil beans until soft and mash lightly.",
+      "Blend dried peppers and onions.",
+      "Fry the blend in palm oil until dark and aromatic.",
+      "Serve sauce over beans with fried plantain or bread."
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Yamarita",
+    "image": "/yamarita.jpeg",
+    "ingredients": ["yam", "eggs", "flour", "salt", "pepper", "seasoning cubes", "vegetable oil"],
+    "instructions": [
+      "Peel and cut yam into slices, then boil until almost soft.",
+      "Whisk eggs and season with salt and pepper.",
+      "Coat yam slices in flour, dip in eggs, and fry in hot oil until golden brown.",
+      "Serve with sauce or ketchup."
+    ]
+  },
+  {
+    "id": 17,
+    "name": "Nkwobi",
+    "image": "/nkwobi.jpeg",
+    "ingredients": ["cow foot", "palm oil", "potash", "onions", "utazi leaves", "pepper", "seasoning cubes", "salt"],
+    "instructions": [
+      "Boil cow foot with salt, pepper, and seasoning until soft.",
+      "Dissolve potash in warm water and mix with palm oil until it thickens.",
+      "Add cooked meat and stir well.",
+      "Garnish with onions and utazi leaves before serving."
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Ofada Rice and Ayamase Sauce",
+    "image": "/ofada.jpeg",
+    "ingredients": ["ofada rice", "green bell peppers", "onions", "locust beans", "palm oil", "assorted meat", "seasoning cubes", "salt"],
+    "instructions": [
+      "Boil ofada rice until soft and set aside.",
+      "Blend green peppers and onions.",
+      "Bleach palm oil slightly and fry the blended mix with locust beans.",
+      "Add assorted meat and seasoning, then simmer for 10 minutes.",
+      "Serve with ofada rice."
+    ]
+  },
+  {
+    "id": 19,
+    "name": "Oha Soup",
+    "image": "/oha soup.jpeg",
+    "ingredients": ["oha leaves", "cocoyam", "palm oil", "meat", "fish", "seasoning cubes", "salt"],
+    "instructions": [
+      "Boil cocoyam and blend into a paste.",
+      "Cook meat and fish with seasoning until tender.",
+      "Add palm oil, cocoyam paste, and allow to thicken.",
+      "Add oha leaves and simmer for 5 minutes before serving."
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Suya",
+    "image": "/suya.jpeg",
+    "ingredients": ["beef", "groundnut powder", "suya spice", "onions", "salt", "vegetable oil"],
+    "instructions": [
+      "Cut beef into thin slices and marinate with suya spice, groundnut powder, and salt.",
+      "Skewer the meat and grill over open fire or in an oven until brown.",
+      "Brush with oil while grilling for moisture.",
+      "Serve hot with onions and tomatoes."
+    ]
+  }
+]
