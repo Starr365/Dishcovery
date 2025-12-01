@@ -3,6 +3,7 @@ import SearchBar from './components/SearchBar'
 import RecipeList from './components/RecipeList'
 import recipesData from './data/recipes.json'
 import DishcoveryLanding from './components/DishcoveryLanding'
+import Modal from './components/Modal'
 
 function App() {
   // State: recipes (static), search, favorites, show favorites only
@@ -117,62 +118,58 @@ function App() {
         )}
 
         {selectedRecipe && (
-          <article className="mx-auto max-w-3xl">
-            <button
-              type="button"
-              onClick={() => setSelectedRecipe(null)}
-              className="mb-6 inline-flex items-center gap-2 text-(--color-text) hover:underline"
-            >
-              ← Back to recipes
-            </button>
-            <div className="card overflow-hidden">
-              <img
-                src={selectedRecipe.image}
-                alt={selectedRecipe.name}
-                className="h-auto w-full object-cover"
-              />
-              <div className="p-6">
-                <div className="mb-4 flex items-center justify-between gap-4">
-                  <h2 className="text-3xl font-extrabold text-(--color-text)">
-                    {selectedRecipe.name}
-                  </h2>
-                  <button
-                    type="button"
-                    onClick={() => toggleFavorite(selectedRecipe.id)}
-                    className="btn-accent whitespace-nowrap"
-                  >
-                    {favorites.includes(selectedRecipe.id) ? '❤️ Favorited' : '🤍 Favorite'}
-                  </button>
-                </div>
+          <Modal isOpen={true} onClose={() => setSelectedRecipe(null)}>
+            <article>
+              <div className="card overflow-hidden">
+                <img
+                  src={selectedRecipe.image}
+                  alt={selectedRecipe.name}
+                  className="h-auto w-full object-cover"
+                  loading="lazy"
+                />
+                <div className="p-6">
+                  <div className="mb-4 flex items-center justify-between gap-4">
+                    <h2 className="text-3xl font-extrabold text-(--color-text)">
+                      {selectedRecipe.name}
+                    </h2>
+                    <button
+                      type="button"
+                      onClick={() => toggleFavorite(selectedRecipe.id)}
+                      className="btn-accent whitespace-nowrap"
+                    >
+                      {favorites.includes(selectedRecipe.id) ? '❤️ Favorited' : '🤍 Favorite'}
+                    </button>
+                  </div>
 
-                <section className="mb-6">
-                  <h3 className="mb-2 text-xl font-extrabold">Ingredients</h3>
-                  <p className="text-lg font-semibold text-neutral-800">
-                    {selectedRecipe.ingredients.join(', ')}
-                  </p>
-                </section>
+                  <section className="mb-6">
+                    <h3 className="mb-2 text-xl font-extrabold">Ingredients</h3>
+                    <p className="text-lg font-semibold text-neutral-800">
+                      {selectedRecipe.ingredients.join(', ')}
+                    </p>
+                  </section>
 
-                <section>
-                  <h3 className="mb-2 text-xl font-extrabold">Instructions</h3>
-                  {Array.isArray(selectedRecipe.instructions) ? (
-                    <ul className="list-disc space-y-2 pl-6">
-                      {selectedRecipe.instructions.map((step, idx) => (
-                        <li key={idx} className="font-semibold text-neutral-800">
-                          {step}
+                  <section>
+                    <h3 className="mb-2 text-xl font-extrabold">Instructions</h3>
+                    {Array.isArray(selectedRecipe.instructions) ? (
+                      <ul className="list-disc space-y-2 pl-6">
+                        {selectedRecipe.instructions.map((step, idx) => (
+                          <li key={idx} className="font-semibold text-neutral-800">
+                            {step}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <ul className="list-disc space-y-2 pl-6">
+                        <li className="font-semibold text-neutral-800">
+                          {String(selectedRecipe.instructions)}
                         </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <ul className="list-disc space-y-2 pl-6">
-                      <li className="font-semibold text-neutral-800">
-                        {String(selectedRecipe.instructions)}
-                      </li>
-                    </ul>
-                  )}
-                </section>
+                      </ul>
+                    )}
+                  </section>
+                </div>
               </div>
-            </div>
-          </article>
+            </article>
+          </Modal>
         )}
       </main>
     </div>
