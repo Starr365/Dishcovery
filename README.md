@@ -3,11 +3,8 @@
 ## Project Overview
 Dishcovery is a lightning-fast recipe discovery application that helps home cooks and food enthusiasts find endless culinary inspiration. It combines beautifully designed interfaces with a robust data-fetching architecture, transforming the messy experience of browsing recipe sites into a sleek, application-like workflow where users can seamlessly search, scroll, and save their favorite meals.
 
----
-## Screenshots & Responsive Proof
+## Screenshots
 ![Dishcovery Preview](./public/ss.jpg)
-
----
 
 
 ## Key Features & Challenges
