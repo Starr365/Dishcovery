@@ -15,15 +15,20 @@ function Modal({ isOpen, onClose, children }) {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="relative max-h-[90vh] max-w-3xl overflow-auto rounded-lg bg-white p-6 shadow-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 animate-fade-in">
+      <div 
+        className="fixed inset-0"
+        onClick={onClose}
+        aria-hidden="true"
+      ></div>
+      <div className="relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-3xl bg-white shadow-2xl ring-1 ring-black/5 z-10 animate-slide-up">
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 bg-red-400 rounded-full w-8 h-8 flex items-center justify-center text-2xl text-neutral-600 hover:text-neutral-800 hover:bg-white"
+          className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-black/50 backdrop-blur-md text-2xl text-white outline-none transition-all hover:bg-black hover:scale-105 active:scale-95"
           aria-label="Close modal"
         >
-          ×
+          &times;
         </button>
         {children}
       </div>

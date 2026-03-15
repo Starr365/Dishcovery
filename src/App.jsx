@@ -1,90 +1,89 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import SearchBar from './components/SearchBar'
 import RecipeList from './components/RecipeList'
-import recipesData from './data/recipes.json'
 import DishcoveryLanding from './components/DishcoveryLanding'
 import Modal from './components/Modal'
-
+import SkeletonRecipeCard from './components/SkeletonRecipeCard'
+import { useInfiniteRecipes } from './hooks/useInfiniteRecipes'
+import { useRecipeSearch } from './hooks/useRecipeSearch'
+import { useFavorites } from './hooks/useFavorites'
+import { dedupeRecipes } from './utils/dedupeRecipes'
 function App() {
-  // State: recipes (static), search, favorites, show favorites only
-  const [recipes] = useState(recipesData)
   const [search, setSearch] = useState('')
-  const [favorites, setFavorites] = useState(() => {
-    try {
-      const raw = localStorage.getItem('dishcovery:favorites')
-      return raw ? JSON.parse(raw) : []
-    } catch {
-      return []
-    }
-  })
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
   const [selectedRecipe, setSelectedRecipe] = useState(null)
-  const [rowsShown, setRowsShown] = useState(2)
-  const [currentCols, setCurrentCols] = useState(1)
 
-  // Determine columns by breakpoint to support row-based pagination
-  useEffect(() => {
-    const getCols = () => {
-      if (window.matchMedia('(min-width: 1280px)').matches) return 4
-      if (window.matchMedia('(min-width: 1024px)').matches) return 3
-      if (window.matchMedia('(min-width: 640px)').matches) return 2
-      return 1
-    }
-    const update = () => setCurrentCols(getCols())
-    update()
-    window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
-  }, [])
-
-  // Load initial search from localStorage
+  // Initialize saved search early
   useEffect(() => {
     const saved = localStorage.getItem('dishcovery:search')
     if (saved) setSearch(saved)
   }, [])
 
-  // Persist favorites
-  useEffect(() => {
-    localStorage.setItem('dishcovery:favorites', JSON.stringify(favorites))
-  }, [favorites])
+  // 1. Infinite Feed Data
+  const {
+    data: infiniteData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading: isLoadingInfinite,
+  } = useInfiniteRecipes()
 
-  // Filter logic: by name or ingredient, case-insensitive
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    let list = recipes
-    if (q) {
-      list = list.filter((r) => {
-        const inName = r.name.toLowerCase().includes(q)
-        const inIngredients = r.ingredients.some((ing) =>
-          ing.toLowerCase().includes(q)
-        )
-        return inName || inIngredients
-      })
-    }
-    if (showFavoritesOnly) {
-      list = list.filter((r) => favorites.includes(r.id))
-    }
-    return list
-  }, [recipes, search, favorites, showFavoritesOnly])
+  // 2. Search Data
+  const {
+    data: searchData,
+    isLoading: isLoadingSearch
+  } = useRecipeSearch(search)
 
-  const toggleFavorite = (id) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    )
+  // 3. Favorites Data
+  const {
+    favoriteIds,
+    toggleFavorite,
+    favoritesData,
+    isLoadingFavorites
+  } = useFavorites()
+
+  // Determine what list of recipes to display
+  let displayedRecipes = []
+  let isLoading = false
+
+  if (showFavoritesOnly) {
+    displayedRecipes = favoritesData
+    isLoading = isLoadingFavorites
+  } else if (search.trim().length > 0) {
+    // If searching, show search hits
+    displayedRecipes = searchData || []
+    isLoading = isLoadingSearch
+  } else {
+    // Default: infinite scroll randoms
+    const flatRecipes = infiniteData?.pages.flat() || []
+    displayedRecipes = dedupeRecipes(flatRecipes)
+    isLoading = isLoadingInfinite
   }
 
-  const visibleCount = rowsShown * currentCols
-  const visibleRecipes = filtered.slice(0, visibleCount)
+  // Infinite Scroll Observer Setup
+  const observer = useRef()
+  const lastRecipeElementRef = useCallback(
+    (node) => {
+      // Don't trigger if searching or viewing favorites, or if currently fetching
+      if (isLoading || isFetchingNextPage || showFavoritesOnly || search.trim().length > 0) return
+      if (observer.current) observer.current.disconnect()
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage()
+        }
+      })
+      if (node) observer.current.observe(node)
+    },
+    [isLoading, isFetchingNextPage, showFavoritesOnly, search, hasNextPage, fetchNextPage]
+  )
 
   return (
     <div className="min-h-screen">
-    {/* Header */}
-    < DishcoveryLanding/>
+      <DishcoveryLanding />
 
-      {/* Main content */}
       <main id='recipes' className="mx-auto max-w-6xl px-4 py-8">
-        {!selectedRecipe && (
-          <>
-            <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
+        <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
               <SearchBar initialQuery={search} onChange={setSearch} />
               <button
                 type="button"
@@ -95,75 +94,112 @@ function App() {
               </button>
             </div>
 
-            {/* Recipe grid (limited by two rows initially, then adds one row per click) */}
-            <RecipeList
-              recipes={visibleRecipes}
-              favorites={favorites}
-              onToggleFavorite={toggleFavorite}
-              onOpen={setSelectedRecipe}
-            />
+            {/* UI Feed loader indicator */}
+            {isLoading && displayedRecipes.length === 0 ? (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {[...Array(6)].map((_, i) => (
+                  <SkeletonRecipeCard key={i} />
+                ))}
+              </div>
+            ) : (
+              <RecipeList
+                recipes={displayedRecipes}
+                favorites={favoriteIds}
+                onToggleFavorite={toggleFavorite}
+                onOpen={setSelectedRecipe}
+              />
+            )}
 
-            {visibleRecipes.length < filtered.length && (
-              <div className="mt-8 flex justify-center">
-                <button
-                  type="button"
-                  onClick={() => setRowsShown((r) => r + 1)}
-                  className="btn-primary"
-                >
-                  Load more
-                </button>
+            {/* Infinite Scroll Sentinel */}
+            {!showFavoritesOnly && search.trim().length === 0 && (
+              <div
+                ref={lastRecipeElementRef}
+                className="h-20 mt-8 flex justify-center items-center text-slate-500"
+              >
+                {isFetchingNextPage ? (
+                  <svg className="animate-spin h-8 w-8 text-rose-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                ) : hasNextPage ? (
+                  <span className="text-sm font-medium tracking-wide">Scroll down for more</span>
+                ) : (
+                  <span className="text-sm font-medium tracking-wide">No more recipes</span>
+                )}
               </div>
             )}
-          </>
-        )}
+
+            {/* If searching or favorites but need an end indicator */}
+            {(showFavoritesOnly || search.trim().length > 0) && displayedRecipes.length > 0 && (
+              <div className="h-10 mt-8 flex justify-center items-center text-neutral-400">
+                End of results
+              </div>
+            )}
 
         {selectedRecipe && (
           <Modal isOpen={true} onClose={() => setSelectedRecipe(null)}>
             <article>
-              <div className="card overflow-hidden">
-                <img
-                  src={selectedRecipe.image}
-                  alt={selectedRecipe.name}
-                  className="h-auto w-full object-cover"
-                  loading="lazy"
-                />
-                <div className="p-6">
-                  <div className="mb-4 flex items-center justify-between gap-4">
-                    <h2 className="text-3xl font-extrabold text-(--color-text)">
-                      {selectedRecipe.name}
-                    </h2>
+              <div className="overflow-hidden">
+                <div className="relative aspect-video sm:aspect-21/9 w-full overflow-hidden">
+                  <img
+                    src={selectedRecipe.image}
+                    alt={selectedRecipe.name}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-slate-900/80 via-transparent to-transparent"></div>
+                </div>
+                <div className="p-6 md:p-10">
+                  <div className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      {selectedRecipe.category && (
+                        <span className="mb-3 inline-block rounded-full bg-rose-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-rose-700">
+                          {selectedRecipe.category}
+                        </span>
+                      )}
+                      <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
+                        {selectedRecipe.name}
+                      </h2>
+                    </div>
                     <button
                       type="button"
                       onClick={() => toggleFavorite(selectedRecipe.id)}
-                      className="btn-accent whitespace-nowrap"
+                      className="btn-accent whitespace-nowrap rounded-full! shrink-0"
                     >
-                      {favorites.includes(selectedRecipe.id) ? '❤️ Favorited' : '🤍 Favorite'}
+                      {favoriteIds.includes(selectedRecipe.id) ? '❤️ Favorited' : '🤍 Favorite'}
                     </button>
                   </div>
 
-                  <section className="mb-6">
-                    <h3 className="mb-2 text-xl font-extrabold">Ingredients</h3>
-                    <p className="text-lg font-semibold text-neutral-800">
-                      {selectedRecipe.ingredients.join(', ')}
-                    </p>
+                  <section className="mb-10">
+                    <h3 className="mb-4 text-xl font-bold text-slate-800">Ingredients</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedRecipe.ingredients.map((ing, idx) => (
+                        <span key={idx} className="rounded-full bg-slate-100 border border-slate-200 px-4 py-1.5 text-sm font-medium text-slate-700">
+                          {ing}
+                        </span>
+                      ))}
+                    </div>
                   </section>
 
                   <section>
-                    <h3 className="mb-2 text-xl font-extrabold">Instructions</h3>
+                    <h3 className="mb-4 text-xl font-bold text-slate-800">Instructions</h3>
                     {Array.isArray(selectedRecipe.instructions) ? (
-                      <ul className="list-disc space-y-2 pl-6">
+                      <div className="space-y-4">
                         {selectedRecipe.instructions.map((step, idx) => (
-                          <li key={idx} className="font-semibold text-neutral-800">
-                            {step}
-                          </li>
+                          <div key={idx} className="flex gap-4">
+                            <div className="flex shrink-0 h-8 w-8 items-center justify-center rounded-full bg-rose-100 text-sm font-bold text-rose-600">
+                              {idx + 1}
+                            </div>
+                            <p className="text-base font-medium text-slate-600 leading-relaxed pt-1">
+                              {step}
+                            </p>
+                          </div>
                         ))}
-                      </ul>
+                      </div>
                     ) : (
-                      <ul className="list-disc space-y-2 pl-6">
-                        <li className="font-semibold text-neutral-800">
-                          {String(selectedRecipe.instructions)}
-                        </li>
-                      </ul>
+                      <p className="text-base font-medium text-slate-600 leading-relaxed">
+                        {String(selectedRecipe.instructions)}
+                      </p>
                     )}
                   </section>
                 </div>
